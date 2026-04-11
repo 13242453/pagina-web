@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="google-site-verification" content="eurZryjt-V3qvA13Js8pBVOerNWch4Xjo4mCmVz_Ojk" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calidad de Software · Mercado Libre</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --navy:#0A1628;--navy2:#0F1F3D;--navy3:#1A2E52;
+  --teal:#00C9A7;--teal-dim:rgba(0,201,167,0.1);
+  --sky:#3B82F6;--sky-dim:rgba(59,130,246,0.12);
+  --amber:#F59E0B;--amber-dim:rgba(245,158,11,0.12);
+  --rose:#F43F5E;--rose-dim:rgba(244,63,94,0.12);
+  --slate:#94A3B8;--slate2:#64748B;
+  --white:#FFFFFF;--text:#E2E8F0;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--navy);color:var(--text);overflow-x:hidden;line-height:1.6}
+
+/* PROGRESS BAR */
+#progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--teal),var(--sky));z-index:1000;transition:width .15s}
+
+/* NAV */
+nav{position:fixed;top:3px;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:1rem 6%;background:rgba(10,22,40,0.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(59,130,246,0.15)}
+.nav-logo{display:flex;align-items:center;gap:.75rem}
+.nav-logo-icon{width:36px;height:36px;background:var(--teal);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.62rem;font-weight:700;color:var(--navy);letter-spacing:.04em;flex-shrink:0}
+.nav-logo-info{display:flex;flex-direction:column;gap:1px}
+.nav-logo-title{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.9rem;color:var(--white);line-height:1.1}
+.nav-logo-sub{font-size:.58rem;color:var(--slate2);letter-spacing:.06em}
+
+/* Hamburger */
+.nav-burger{display:flex;flex-direction:column;justify-content:center;gap:5px;width:38px;height:38px;border:1px solid rgba(59,130,246,0.25);border-radius:6px;background:transparent;cursor:pointer;padding:9px;transition:border-color .25s,background .25s}
+.nav-burger:hover{border-color:var(--teal);background:var(--teal-dim)}
+.nav-burger span{display:block;height:2px;border-radius:2px;background:var(--slate);transition:transform .3s,opacity .3s,background .25s;transform-origin:center}
+.nav-burger:hover span{background:var(--teal)}
+.nav-burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-burger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.nav-burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+/* Dropdown */
+.nav-dropdown{position:absolute;top:calc(100% + 8px);right:6%;background:rgba(8,18,36,0.98);border:1px solid rgba(59,130,246,0.22);border-radius:10px;padding:.5rem;min-width:210px;opacity:0;pointer-events:none;transform:translateY(-8px);transition:opacity .25s,transform .25s;backdrop-filter:blur(20px)}
+.nav-dropdown.open{opacity:1;pointer-events:auto;transform:translateY(0)}
+.nav-dropdown a{display:flex;align-items:center;gap:.65rem;padding:.6rem 1rem;font-size:.78rem;font-weight:500;color:var(--slate);text-decoration:none;border-radius:6px;letter-spacing:.04em;transition:color .2s,background .2s}
+.nav-dropdown a:hover{color:var(--teal);background:var(--teal-dim)}
+.nd-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.nd-divider{height:1px;background:rgba(59,130,246,0.1);margin:.35rem 0}
+
+/* HERO */
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:3rem;padding:8rem 6% 5rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-20%;right:-10%;width:70vw;height:70vw;background:radial-gradient(circle,rgba(59,130,246,0.07) 0%,transparent 65%);pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:-15%;left:-5%;width:50vw;height:50vw;background:radial-gradient(circle,rgba(0,201,167,0.05) 0%,transparent 65%);pointer-events:none}
+.hero-left{position:relative;z-index:1}
+
+/* ML Logo badge */
+.ml-badge{display:inline-flex;align-items:center;gap:.75rem;margin-bottom:1.75rem}
+.ml-logo-wrap{width:48px;height:48px;background:#FFE600;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ml-logo-wrap svg{width:34px;height:34px}
+.ml-badge-text{}
+.ml-badge-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.95rem;color:var(--white);line-height:1.1}
+.ml-badge-tag{font-size:.63rem;color:var(--slate2);letter-spacing:.06em}
+
+.hero-chip{display:inline-flex;align-items:center;gap:.5rem;padding:.32rem .85rem;border:1px solid rgba(0,201,167,0.35);border-radius:100px;margin-bottom:1.2rem;font-size:.65rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--teal)}
+.hero-chip-dot{width:6px;height:6px;border-radius:50%;background:var(--teal);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(2.2rem,4.2vw,4rem);font-weight:700;line-height:1.1;color:var(--white);margin-bottom:1.1rem}
+.hero-title .accent{color:var(--teal)}
+.hero-desc{font-size:.95rem;color:var(--slate);line-height:1.8;max-width:46ch;margin-bottom:1.75rem}
+.hero-tags{display:flex;flex-wrap:wrap;gap:.55rem}
+.tag{padding:.28rem .7rem;border:1px solid rgba(148,163,184,0.2);border-radius:4px;font-size:.7rem;font-weight:500;color:var(--slate2);letter-spacing:.04em}
+
+/* CIRCULAR SCORES */
+.hero-right{display:flex;flex-direction:column;gap:1.25rem;position:relative;z-index:1}
+.circles-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem}
+.circ-card{background:rgba(15,31,61,0.75);border:1px solid rgba(59,130,246,0.18);border-radius:14px;padding:1.4rem 1rem;display:flex;flex-direction:column;align-items:center;gap:.7rem;transition:border-color .3s,transform .3s;cursor:default}
+.circ-card:hover{transform:translateY(-4px)}
+.circ-card.cc-rose:hover{border-color:rgba(244,63,94,0.5)}
+.circ-card.cc-sky:hover{border-color:rgba(59,130,246,0.5)}
+.circ-card.cc-amber:hover{border-color:rgba(245,158,11,0.5)}
+.circ-card.cc-teal{background:rgba(0,201,167,0.07);border-color:rgba(0,201,167,0.28);grid-column:1/-1;flex-direction:row;padding:1.2rem 1.6rem;gap:1.5rem}
+.circ-card.cc-teal:hover{border-color:rgba(0,201,167,0.6);transform:translateY(-3px)}
+.circ-wrap{position:relative;width:92px;height:92px;flex-shrink:0}
+.cc-teal .circ-wrap{width:78px;height:78px}
+.circ-wrap svg{transform:rotate(-90deg)}
+.circ-bg{fill:none;stroke:rgba(255,255,255,0.06)}
+.circ-fill{fill:none;stroke-linecap:round;stroke-dasharray:251.2;stroke-dashoffset:251.2;transition:stroke-dashoffset 1.9s cubic-bezier(.25,.46,.45,.94)}
+.cc-rose .circ-fill{stroke:var(--rose)}
+.cc-sky .circ-fill{stroke:var(--sky)}
+.cc-amber .circ-fill{stroke:var(--amber)}
+.cc-teal .circ-fill{stroke:var(--teal)}
+.circ-inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px}
+.circ-val{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:700;line-height:1}
+.cc-teal .circ-val{font-size:1.05rem}
+.circ-pct{font-size:.55rem;color:var(--slate2);line-height:1}
+.cc-rose .circ-val{color:var(--rose)}
+.cc-sky .circ-val{color:var(--sky)}
+.cc-amber .circ-val{color:var(--amber)}
+.cc-teal .circ-val{color:var(--teal)}
+.circ-info{text-align:center}
+.cc-teal .circ-info{text-align:left}
+.circ-label{font-size:.66rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;margin-bottom:.1rem}
+.cc-rose .circ-label{color:var(--rose)}
+.cc-sky .circ-label{color:var(--sky)}
+.cc-amber .circ-label{color:var(--amber)}
+.cc-teal .circ-label{color:var(--teal)}
+.circ-sub{font-size:.7rem;color:var(--slate2);line-height:1.4}
+
+/* PARTICIPANTS */
+.participants-band{padding:3rem 6%;background:var(--navy3);border-top:1px solid rgba(59,130,246,0.15);border-bottom:1px solid rgba(59,130,246,0.15)}
+.part-eyebrow{font-size:.63rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);margin-bottom:1.5rem;display:flex;align-items:center;gap:.6rem}
+.part-eyebrow::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(0,201,167,0.3),transparent);max-width:60px}
+.part-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
+.part-card{background:rgba(10,22,40,0.5);border:1px solid rgba(59,130,246,0.15);border-radius:10px;padding:1.25rem 1.4rem;display:flex;align-items:center;gap:1rem;transition:border-color .3s,transform .3s;cursor:default}
+.part-card:hover{border-color:rgba(0,201,167,0.35);transform:translateY(-3px)}
+.part-avatar{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:700;flex-shrink:0}
+.pa1{background:rgba(244,63,94,0.15);color:var(--rose);border:1px solid rgba(244,63,94,0.3)}
+.pa2{background:rgba(59,130,246,0.15);color:var(--sky);border:1px solid rgba(59,130,246,0.3)}
+.pa3{background:rgba(0,201,167,0.15);color:var(--teal);border:1px solid rgba(0,201,167,0.3)}
+.part-name{font-size:.88rem;font-weight:600;color:var(--white)}
+.part-role{font-size:.71rem;color:var(--slate2);margin-top:.15rem}
+
+/* FADE IN */
+.fi{opacity:0;transform:translateY(24px);transition:opacity .65s,transform .65s}
+.fi-l{opacity:0;transform:translateX(-24px);transition:opacity .65s,transform .65s}
+.fi-r{opacity:0;transform:translateX(24px);transition:opacity .65s,transform .65s}
+.fi.in,.fi-l.in,.fi-r.in{opacity:1;transform:none}
+
+/* SECTIONS */
+section{padding:6rem 6%}
+.section-header{margin-bottom:3.5rem}
+.section-number{font-size:.65rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);margin-bottom:.5rem;display:flex;align-items:center;gap:.6rem}
+.section-number::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(0,201,167,0.3),transparent);max-width:80px}
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.8rem,3vw,2.8rem);font-weight:700;color:var(--white);line-height:1.2}
+.section-sub{font-size:.95rem;color:var(--slate);margin-top:.75rem;max-width:55ch}
+
+/* PLATAFORMA */
+.plat-section{background:var(--navy2);border-top:1px solid rgba(59,130,246,0.12);border-bottom:1px solid rgba(59,130,246,0.12)}
+.plat-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.5rem}
+.plat-card{background:rgba(10,22,40,0.6);border:1px solid rgba(59,130,246,0.15);border-radius:10px;padding:1.5rem;transition:border-color .3s,transform .3s;cursor:default}
+.plat-card:hover{border-color:rgba(59,130,246,0.4);transform:translateY(-4px)}
+.plat-card-icon{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;margin-bottom:1rem;background:var(--sky-dim)}
+.plat-card h3{font-size:.68rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--sky);margin-bottom:.6rem}
+.plat-card p{font-size:.9rem;color:var(--slate);line-height:1.7}
+.func-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-top:1rem}
+.func-item{display:flex;align-items:center;gap:.6rem;padding:.5rem .75rem;border:1px solid rgba(59,130,246,0.1);border-radius:6px;font-size:.83rem;color:var(--slate);transition:border-color .2s,background .2s,color .2s;cursor:default}
+.func-item:hover{border-color:var(--teal);background:var(--teal-dim);color:var(--teal)}
+.func-item::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--teal);flex-shrink:0;transition:transform .2s}
+.func-item:hover::before{transform:scale(1.5)}
+
+/* ESCALA */
+.scale-band{padding:3rem 6%;background:var(--navy2);border-top:1px solid rgba(59,130,246,0.12);border-bottom:1px solid rgba(59,130,246,0.12)}
+.scale-band-header{margin-bottom:1.5rem}
+.scale-band-title{font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:700;color:var(--white);margin-bottom:.3rem}
+.scale-band-sub{font-size:.82rem;color:var(--slate2)}
+.scale-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.1rem}
+.scale-item{border-radius:10px;border:1px solid rgba(148,163,184,0.12);padding:1.25rem;transition:border-color .3s,transform .3s;cursor:default;position:relative;overflow:hidden}
+.scale-item::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.si-teal::before{background:var(--teal)} .si-sky::before{background:var(--sky)}
+.si-amber::before{background:var(--amber)} .si-rose::before{background:var(--rose)}
+.si-teal:hover{border-color:rgba(0,201,167,0.4);transform:translateY(-4px)}
+.si-sky:hover{border-color:rgba(59,130,246,0.4);transform:translateY(-4px)}
+.si-amber:hover{border-color:rgba(245,158,11,0.4);transform:translateY(-4px)}
+.si-rose:hover{border-color:rgba(244,63,94,0.4);transform:translateY(-4px)}
+.scale-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:.8rem}
+.scale-num{font-family:'Space Grotesk',sans-serif;font-size:2.4rem;font-weight:700;line-height:1}
+.sn-teal{color:var(--teal)} .sn-sky{color:var(--sky)} .sn-amber{color:var(--amber)} .sn-rose{color:var(--rose)}
+.scale-dots{display:flex;gap:4px}
+.sdot{width:7px;height:7px;border-radius:50%}
+.scale-label{font-size:.78rem;font-weight:600;color:var(--white);margin-bottom:.4rem}
+.scale-desc{font-size:.78rem;color:var(--slate2);line-height:1.55}
+
+/* McCALL */
+.mccall-section{background:var(--navy)}
+.mcc-layout{display:grid;grid-template-columns:300px 1fr;gap:2.5rem;align-items:start}
+.mcc-aside{display:flex;flex-direction:column;gap:1rem}
+.mcc-big-card{background:var(--navy2);border:1px solid rgba(59,130,246,0.15);border-radius:12px;padding:1.75rem}
+.mcc-big-card:first-child{border-color:rgba(244,63,94,0.3)}
+.mcc-big-card:nth-child(2){border-color:rgba(245,158,11,0.3)}
+.mcc-big-card:nth-child(3){border-color:rgba(0,201,167,0.3)}
+.mcc-cap-label{font-size:.6rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;margin-bottom:.35rem}
+.mcc-big-card:first-child .mcc-cap-label{color:var(--rose)}
+.mcc-big-card:nth-child(2) .mcc-cap-label{color:var(--amber)}
+.mcc-big-card:nth-child(3) .mcc-cap-label{color:var(--teal)}
+.mcc-cap-score{font-family:'Space Grotesk',sans-serif;font-size:3rem;font-weight:700;line-height:1}
+.mcc-big-card:first-child .mcc-cap-score{color:var(--rose)}
+.mcc-big-card:nth-child(2) .mcc-cap-score{color:var(--amber)}
+.mcc-big-card:nth-child(3) .mcc-cap-score{color:var(--teal)}
+.mcc-cap-sub{font-size:.78rem;color:var(--slate);margin-top:.35rem}
+.mcc-factors{display:flex;flex-direction:column;gap:1.25rem}
+.factor-row{background:var(--navy2);border:1px solid rgba(59,130,246,0.12);border-radius:10px;padding:1.25rem 1.5rem;transition:border-color .25s,transform .25s;cursor:default}
+.factor-row:hover{border-color:rgba(0,201,167,0.3);transform:translateX(6px)}
+.factor-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.9rem}
+.factor-name{font-size:.88rem;font-weight:500;color:var(--text)}
+.factor-badge{font-size:.72rem;font-weight:600;padding:.2rem .65rem;border-radius:20px;background:rgba(0,201,167,0.12);color:var(--teal);font-family:'Space Grotesk',sans-serif}
+.factor-bar-track{height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;margin-bottom:.6rem}
+.factor-bar-f{height:100%;border-radius:3px;width:0;transition:width 1.4s cubic-bezier(.25,.46,.45,.94)}
+.factor-desc{font-size:.78rem;color:var(--slate2);line-height:1.6}
+.mcc-total{background:linear-gradient(135deg,rgba(244,63,94,0.08),rgba(245,158,11,0.06),rgba(0,201,167,0.08));border:1px solid rgba(0,201,167,0.25);border-radius:12px;padding:2rem;display:flex;align-items:center;gap:2.5rem;margin-top:2rem}
+.total-label-block{min-width:160px}
+.total-label-main{font-size:.68rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--slate2)}
+.total-bar-wrap{flex:1;height:8px;background:rgba(255,255,255,0.06);border-radius:4px;overflow:hidden}
+.total-bar{height:100%;border-radius:4px;width:0;transition:width 1.8s cubic-bezier(.25,.46,.45,.94)}
+.mcc-total-val{font-family:'Space Grotesk',sans-serif;font-size:4rem;font-weight:700;color:var(--teal);line-height:1;margin-left:auto}
+
+/* BOEHM */
+.boehm-section{background:var(--navy2);border-top:1px solid rgba(59,130,246,0.12);border-bottom:1px solid rgba(59,130,246,0.12)}
+.boehm-dims{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-bottom:2.5rem}
+.boehm-dim{background:var(--navy);border:1px solid rgba(59,130,246,0.15);border-radius:10px;padding:1.4rem;text-align:center;transition:border-color .3s,transform .3s;cursor:default}
+.boehm-dim:hover{transform:translateY(-5px)}
+.boehm-dim:nth-child(1):hover{border-color:rgba(59,130,246,0.5)}
+.boehm-dim:nth-child(2):hover{border-color:rgba(0,201,167,0.5)}
+.boehm-dim:nth-child(3):hover{border-color:rgba(245,158,11,0.5)}
+.boehm-dim h4{font-size:.6rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;margin-bottom:.6rem}
+.boehm-dim:nth-child(1) h4{color:var(--sky)} .boehm-dim:nth-child(2) h4{color:var(--teal)} .boehm-dim:nth-child(3) h4{color:var(--amber)}
+.boehm-dim-val{font-family:'Space Grotesk',sans-serif;font-size:2.8rem;font-weight:700;line-height:1}
+.boehm-dim:nth-child(1) .boehm-dim-val{color:var(--sky)} .boehm-dim:nth-child(2) .boehm-dim-val{color:var(--teal)} .boehm-dim:nth-child(3) .boehm-dim-val{color:var(--amber)}
+.boehm-dim p{font-size:.78rem;color:var(--slate2);margin-top:.4rem}
+.boehm-table{width:100%;border-collapse:collapse}
+.boehm-table th{font-size:.65rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--slate2);padding:.6rem 1rem;text-align:left;border-bottom:1px solid rgba(59,130,246,0.15)}
+.boehm-table td{padding:.65rem 1rem;font-size:.84rem;border-bottom:1px solid rgba(59,130,246,0.07);transition:background .2s}
+.boehm-table tr:hover td{background:rgba(59,130,246,0.04)}
+.boehm-table tr:last-child td{border-bottom:none}
+.bt-name{color:var(--text)} .bt-exp{color:var(--slate2);font-family:'Space Grotesk',sans-serif;font-size:.95rem}
+.bt-obt{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:600}
+.bt-up{color:var(--teal)} .bt-eq{color:var(--sky)} .bt-dn{color:var(--rose)}
+.bt-badge{font-size:.6rem;font-weight:600;padding:.15rem .45rem;border-radius:4px}
+.btu{background:rgba(0,201,167,0.12);color:var(--teal)} .bteq{background:rgba(59,130,246,0.12);color:var(--sky)} .btd{background:rgba(244,63,94,0.12);color:var(--rose)}
+.boehm-total{background:rgba(10,22,40,0.6);border:1px solid rgba(59,130,246,0.2);border-radius:12px;padding:2rem;display:flex;align-items:center;gap:2.5rem;margin-top:2rem}
+.boehm-total-val{font-family:'Space Grotesk',sans-serif;font-size:4rem;font-weight:700;color:var(--sky);line-height:1;margin-left:auto}
+
+/* FURPS */
+.furps-section{background:var(--navy)}
+.furps-cards{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;margin-bottom:2rem}
+.furps-card{background:var(--navy2);border:1px solid rgba(59,130,246,0.12);border-radius:10px;padding:1.4rem;transition:transform .3s,border-color .3s;cursor:default;position:relative;overflow:hidden}
+.furps-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px}
+.furps-card:nth-child(1)::before{background:var(--teal)} .furps-card:nth-child(2)::before{background:var(--sky)} .furps-card:nth-child(3)::before{background:var(--rose)} .furps-card:nth-child(4)::before{background:var(--amber)} .furps-card:nth-child(5)::before{background:rgba(148,163,184,0.5)}
+.furps-card:hover{transform:translateY(-5px)}
+.furps-card:nth-child(1):hover{border-color:rgba(0,201,167,0.35)} .furps-card:nth-child(2):hover{border-color:rgba(59,130,246,0.35)} .furps-card:nth-child(3):hover{border-color:rgba(244,63,94,0.35)} .furps-card:nth-child(4):hover{border-color:rgba(245,158,11,0.35)} .furps-card:nth-child(5):hover{border-color:rgba(148,163,184,0.35)}
+.furps-letter{font-family:'Space Grotesk',sans-serif;font-size:2.5rem;font-weight:700;line-height:1}
+.furps-card:nth-child(1) .furps-letter{color:var(--teal)} .furps-card:nth-child(2) .furps-letter{color:var(--sky)} .furps-card:nth-child(3) .furps-letter{color:var(--rose)} .furps-card:nth-child(4) .furps-letter{color:var(--amber)} .furps-card:nth-child(5) .furps-letter{color:var(--slate)}
+.furps-name{font-size:.62rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--slate2);margin-top:.15rem;margin-bottom:1rem}
+.furps-score{font-family:'Space Grotesk',sans-serif;font-size:1.9rem;font-weight:700;color:var(--white);margin-bottom:.9rem}
+.furps-items{list-style:none;display:flex;flex-direction:column;gap:.35rem}
+.furps-item{font-size:.74rem;color:var(--slate2);display:flex;align-items:center;gap:.5rem;line-height:1.4}
+.furps-item::before{content:'';width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.furps-card:nth-child(1) .furps-item::before{background:var(--teal)} .furps-card:nth-child(2) .furps-item::before{background:var(--sky)} .furps-card:nth-child(3) .furps-item::before{background:var(--rose)} .furps-card:nth-child(4) .furps-item::before{background:var(--amber)} .furps-card:nth-child(5) .furps-item::before{background:var(--slate2)}
+.furps-total{background:rgba(59,130,246,0.05);border:1px solid rgba(59,130,246,0.2);border-radius:12px;padding:2rem;display:flex;align-items:center;gap:2.5rem;margin-top:2rem}
+.furps-total-val{font-family:'Space Grotesk',sans-serif;font-size:4rem;font-weight:700;color:var(--amber);line-height:1;margin-left:auto}
+
+/* COMPARACIÓN */
+.comp-section{background:var(--navy2);border-top:1px solid rgba(59,130,246,0.12)}
+.comp-layout{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.comp-bars{display:flex;flex-direction:column;gap:2rem}
+.comp-bar-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.65rem}
+.comp-bar-model{font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--slate)}
+.comp-bar-score{font-family:'Space Grotesk',sans-serif;font-size:1.6rem;font-weight:700}
+.cb1{color:var(--rose)} .cb2{color:var(--sky)} .cb3{color:var(--amber)}
+.comp-track{height:10px;background:rgba(255,255,255,0.06);border-radius:5px;overflow:hidden}
+.comp-fill{height:100%;border-radius:5px;width:0;transition:width 1.8s cubic-bezier(.25,.46,.45,.94)}
+.cf1{background:linear-gradient(90deg,var(--rose),rgba(244,63,94,0.6))}
+.cf2{background:linear-gradient(90deg,var(--sky),rgba(59,130,246,0.6))}
+.cf3{background:linear-gradient(90deg,var(--amber),rgba(245,158,11,0.6))}
+.radar-box{background:var(--navy);border:1px solid rgba(59,130,246,0.15);border-radius:12px;padding:1.5rem;display:flex;flex-direction:column;align-items:center}
+.radar-title{font-size:.65rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--slate2);margin-bottom:1.25rem}
+
+/* CONCLUSIONES */
+.conc-section{background:var(--navy);border-top:1px solid rgba(59,130,246,0.12)}
+.conc-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.conc-card{border-radius:12px;padding:2rem;border:1px solid transparent;transition:transform .3s;cursor:default}
+.conc-card:nth-child(1){background:rgba(244,63,94,0.05);border-color:rgba(244,63,94,0.2)}
+.conc-card:nth-child(2){background:rgba(59,130,246,0.05);border-color:rgba(59,130,246,0.2)}
+.conc-card:nth-child(3){background:rgba(245,158,11,0.05);border-color:rgba(245,158,11,0.2)}
+.conc-card:hover{transform:translateY(-6px)}
+.conc-card:nth-child(1):hover{border-color:rgba(244,63,94,0.45)} .conc-card:nth-child(2):hover{border-color:rgba(59,130,246,0.45)} .conc-card:nth-child(3):hover{border-color:rgba(245,158,11,0.45)}
+.conc-model{font-size:.62rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;margin-bottom:.5rem}
+.conc-card:nth-child(1) .conc-model{color:var(--rose)} .conc-card:nth-child(2) .conc-model{color:var(--sky)} .conc-card:nth-child(3) .conc-model{color:var(--amber)}
+.conc-score{font-family:'Space Grotesk',sans-serif;font-size:3.5rem;font-weight:700;line-height:1;margin-bottom:1.25rem}
+.conc-card:nth-child(1) .conc-score{color:var(--rose)} .conc-card:nth-child(2) .conc-score{color:var(--sky)} .conc-card:nth-child(3) .conc-score{color:var(--amber)}
+.conc-text{font-size:.86rem;color:var(--slate);line-height:1.8;transition:color .3s}
+.conc-card:hover .conc-text{color:var(--text)}
+.oport-section{margin-top:4rem}
+.oport-title{font-size:.65rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);margin-bottom:1.5rem;display:flex;align-items:center;gap:.6rem}
+.oport-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(0,201,167,0.3),transparent);max-width:60px}
+.oport-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+.oport-item{background:var(--navy2);border:1px solid rgba(59,130,246,0.12);border-radius:8px;padding:1.25rem;transition:border-color .3s,transform .3s;cursor:default}
+.oport-item:hover{border-color:var(--teal);transform:scale(1.03)}
+.oport-num{font-family:'Space Grotesk',sans-serif;font-size:1.8rem;font-weight:700;color:var(--teal);margin-bottom:.5rem}
+.oport-text{font-size:.81rem;color:var(--slate);line-height:1.5}
+
+/* SCROLL TOP */
+#scrollTop{position:fixed;bottom:2rem;right:2rem;z-index:99;width:42px;height:42px;border-radius:8px;border:1px solid rgba(59,130,246,0.3);background:var(--navy2);display:flex;align-items:center;justify-content:center;color:var(--teal);font-size:.9rem;cursor:pointer;opacity:0;transform:translateY(10px);transition:all .3s}
+#scrollTop.show{opacity:1;transform:translateY(0)}
+#scrollTop:hover{background:var(--teal);color:var(--navy);border-color:var(--teal)}
+
+/* FOOTER */
+footer{padding:2.5rem 6%;border-top:1px solid rgba(59,130,246,0.12);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;background:var(--navy2)}
+footer p{font-size:.75rem;color:var(--slate2)}
+.footer-chips{display:flex;gap:.75rem}
+.fchip{font-size:.65rem;font-weight:600;padding:.28rem .75rem;border-radius:4px;letter-spacing:.08em;text-transform:uppercase}
+.fc1{background:rgba(244,63,94,0.12);color:var(--rose)} .fc2{background:rgba(59,130,246,0.12);color:var(--sky)} .fc3{background:rgba(245,158,11,0.12);color:var(--amber)}
+
+/* RESPONSIVE */
+@media(max-width:960px){
+  .hero{grid-template-columns:1fr;padding:7rem 6% 4rem}
+  .circles-grid{grid-template-columns:1fr 1fr}
+  .mcc-layout{grid-template-columns:1fr}
+  .boehm-dims,.scale-grid{grid-template-columns:1fr 1fr}
+  .furps-cards,.conc-cards{grid-template-columns:1fr 1fr}
+  .comp-layout,.plat-grid,.part-grid{grid-template-columns:1fr}
+  .oport-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:600px){
+  .furps-cards,.oport-grid,.scale-grid,.part-grid{grid-template-columns:1fr}
+  .boehm-dims,.circles-grid,.conc-cards{grid-template-columns:1fr}
+  .func-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar" style="width:0"></div>
+<div id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</div>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <div class="nav-logo">
+    <div class="nav-logo-icon">QA</div>
+    <div class="nav-logo-info">
+      <span class="nav-logo-title">CalSoft · ML</span>
+      <span class="nav-logo-sub">Calidad de Software · Mercado Libre</span>
+    </div>
+  </div>
+  <button class="nav-burger" id="burger" aria-label="Menú" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-dropdown" id="navDropdown">
+    <a href="#plataforma" onclick="closeMenu()"><span class="nd-dot" style="background:var(--sky)"></span>Plataforma</a>
+    <a href="#mccall" onclick="closeMenu()"><span class="nd-dot" style="background:var(--rose)"></span>McCall</a>
+    <a href="#boehm" onclick="closeMenu()"><span class="nd-dot" style="background:var(--sky)"></span>Boehm</a>
+    <a href="#furps" onclick="closeMenu()"><span class="nd-dot" style="background:var(--amber)"></span>FURPS</a>
+    <div class="nd-divider"></div>
+    <a href="#resultados" onclick="closeMenu()"><span class="nd-dot" style="background:var(--teal)"></span>Resultados</a>
+    <a href="#conclusiones" onclick="closeMenu()"><span class="nd-dot" style="background:var(--teal)"></span>Conclusiones</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="hero-left">
+
+    <!-- Logo Mercado Libre -->
+   <div class="ml-logo-wrap">
+  <img src="MERCADO.png" alt="Logo Mercado Libre" width="60">
+</div>
+      <div>
+        <div class="ml-badge-name">Mercado Libre</div>
+        <div class="ml-badge-tag">mercadolibre.com · Comercio electrónico</div>
+      </div>
+    </div>
+    <div class="hero-chip"><span class="hero-chip-dot"></span>Ingeniería de Software · 2025</div>
+    <h1 class="hero-title">Evaluación de<br>Calidad —<br><span class="accent">Mercado Libre</span></h1>
+    <p class="hero-desc">Análisis sistemático aplicando los modelos McCall, Boehm y FURPS a la plataforma líder de comercio electrónico en Latinoamérica.</p>
+    <div class="hero-tags">
+      <span class="tag">McCall 1977</span>
+      <span class="tag">Boehm 1978</span>
+      <span class="tag">FURPS 1987</span>
+      <span class="tag">Comercio electrónico</span>
+    </div>
+  </div>
+
+  <!-- CIRCULAR SCORES -->
+  <div class="hero-right">
+    <div class="circles-grid">
+      <!-- McCall -->
+      <div class="circ-card cc-rose">
+        <div class="circ-wrap">
+          <svg width="92" height="92" viewBox="0 0 92 92">
+            <circle class="circ-bg" cx="46" cy="46" r="40" stroke-width="6"/>
+            <circle class="circ-fill" id="cf-mccall" cx="46" cy="46" r="40" stroke-width="6" data-pct="76.8"/>
+          </svg>
+          <div class="circ-inner">
+            <span class="circ-val" data-count="76.8">0</span>
+            <span class="circ-pct">/ 100</span>
+          </div>
+        </div>
+        <div class="circ-info">
+          <div class="circ-label">McCall</div>
+          <div class="circ-sub">Operación · Transición · Revisión</div>
+        </div>
+      </div>
+      <!-- Boehm -->
+      <div class="circ-card cc-sky">
+        <div class="circ-wrap">
+          <svg width="92" height="92" viewBox="0 0 92 92">
+            <circle class="circ-bg" cx="46" cy="46" r="40" stroke-width="6"/>
+            <circle class="circ-fill" id="cf-boehm" cx="46" cy="46" r="40" stroke-width="6" data-pct="93.8"/>
+          </svg>
+          <div class="circ-inner">
+            <span class="circ-val" data-count="93.8">0</span>
+            <span class="circ-pct">/ 100</span>
+          </div>
+        </div>
+        <div class="circ-info">
+          <div class="circ-label">Boehm</div>
+          <div class="circ-sub">Portabilidad · Utilidad · Mantenibilidad</div>
+        </div>
+      </div>
+      <!-- FURPS -->
+      <div class="circ-card cc-amber">
+        <div class="circ-wrap">
+          <svg width="92" height="92" viewBox="0 0 92 92">
+            <circle class="circ-bg" cx="46" cy="46" r="40" stroke-width="6"/>
+            <circle class="circ-fill" id="cf-furps" cx="46" cy="46" r="40" stroke-width="6" data-pct="84.8"/>
+          </svg>
+          <div class="circ-inner">
+            <span class="circ-val" data-count="84.8">0</span>
+            <span class="circ-pct">/ 100</span>
+          </div>
+        </div>
+        <div class="circ-info">
+          <div class="circ-label">FURPS</div>
+          <div class="circ-sub">F · U · R · P · S</div>
+        </div>
+      </div>
+      <!-- Promedio (full width) -->
+      <div class="circ-card cc-teal" style="grid-column:1/-1">
+        <div class="circ-wrap" style="width:78px;height:78px">
+          <svg width="78" height="78" viewBox="0 0 78 78">
+            <circle class="circ-bg" cx="39" cy="39" r="33" stroke-width="5"/>
+            <circle class="circ-fill" id="cf-total" cx="39" cy="39" r="33" stroke-width="5" data-pct="85.1" style="stroke-dasharray:207.3;stroke-dashoffset:207.3"/>
+          </svg>
+          <div class="circ-inner">
+            <span class="circ-val" data-count="85.1">0</span>
+            <span class="circ-pct">/ 100</span>
+          </div>
+        </div>
+        <div class="circ-info">
+          <div class="circ-label">Promedio Global</div>
+          <div class="circ-sub">Resultado combinado de los tres modelos de calidad de software aplicados a Mercado Libre.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARTICIPANTES -->
+<div class="participants-band fi">
+  <p class="part-eyebrow">Equipo de evaluación</p>
+  <div class="part-grid">
+    <div class="part-card">
+      <div class="part-avatar pa1">WA</div>
+      <div>
+        <div class="part-name">Wesly Arévalo</div>
+        <div class="part-role">Evaluador · Ingeniería de Software</div>
+      </div>
+    </div>
+    <div class="part-card">
+      <div class="part-avatar pa2">WM</div>
+      <div>
+        <div class="part-name">Wenyure Méndez</div>
+        <div class="part-role">Evaluador · Ingeniería de Software</div>
+      </div>
+    </div>
+    <div class="part-card">
+      <div class="part-avatar pa3">DC</div>
+      <div>
+        <div class="part-name">Deisireed Castañeda</div>
+        <div class="part-role">Evaluador · Ingeniería de Software</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PLATAFORMA -->
+<section class="plat-section" id="plataforma">
+  <div class="section-header fi">
+    <p class="section-number">01 · Recurso Evaluado</p>
+    <h2 class="section-title">Mercado Libre</h2>
+    <p class="section-sub">Plataforma de comercio electrónico fundada en 1999 por Marcos Galperin. Líder en América Latina con presencia en 18 países.</p>
+  </div>
+  <div class="plat-grid">
+    <div class="plat-card fi">
+      <div class="plat-card-icon">🌐</div>
+      <h3>Descripción</h3>
+      <p>Desarrollada con HTML, CSS, JavaScript y sistemas de bases de datos para gestionar grandes volúmenes de información de manera eficiente y escalable.</p>
+    </div>
+    <div class="plat-card fi" style="transition-delay:.1s">
+      <div class="plat-card-icon">📋</div>
+      <h3>Licencia y Área</h3>
+      <p>Licencia propietaria — software perteneciente a la empresa, uso regulado por términos y condiciones. Área: comercio electrónico y negocios digitales.</p>
+    </div>
+    <div class="plat-card fi" style="transition-delay:.2s">
+      <div class="plat-card-icon">⚙️</div>
+      <h3>Funcionalidades del sistema</h3>
+      <div class="func-grid">
+        <div class="func-item">Búsqueda por categorías</div>
+        <div class="func-item">Comparación de precios</div>
+        <div class="func-item">Compras en línea seguras</div>
+        <div class="func-item">Publicación de productos</div>
+        <div class="func-item">Sistema de calificaciones</div>
+        <div class="func-item">Pagos digitales integrados</div>
+        <div class="func-item">Seguimiento de envíos</div>
+        <div class="func-item">Gestión de usuarios</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ESCALA DE VALORACIÓN -->
+<div class="scale-band">
+  <div class="scale-band-header fi">
+    <div class="scale-band-title">Escala de Valoración</div>
+    <div class="scale-band-sub">Criterio de puntuación utilizado en los tres modelos de evaluación de calidad</div>
+  </div>
+  <div class="scale-grid">
+    <div class="scale-item si-teal fi">
+      <div class="scale-top">
+        <span class="scale-num sn-teal">4</span>
+        <div class="scale-dots">
+          <div class="sdot" style="background:var(--teal)"></div>
+          <div class="sdot" style="background:var(--teal)"></div>
+          <div class="sdot" style="background:var(--teal)"></div>
+          <div class="sdot" style="background:var(--teal)"></div>
+        </div>
+      </div>
+      <div class="scale-label">Excelente</div>
+      <div class="scale-desc">El sistema cumple el criterio de forma sobresaliente, superando las expectativas. No se identifican deficiencias significativas.</div>
+    </div>
+    <div class="scale-item si-sky fi" style="transition-delay:.08s">
+      <div class="scale-top">
+        <span class="scale-num sn-sky">3</span>
+        <div class="scale-dots">
+          <div class="sdot" style="background:var(--sky)"></div>
+          <div class="sdot" style="background:var(--sky)"></div>
+          <div class="sdot" style="background:var(--sky)"></div>
+          <div class="sdot" style="background:rgba(148,163,184,0.3)"></div>
+        </div>
+      </div>
+      <div class="scale-label">Bueno</div>
+      <div class="scale-desc">El sistema satisface el criterio adecuadamente con oportunidades menores de mejora. Cumple con lo esperado en la mayoría de escenarios.</div>
+    </div>
+    <div class="scale-item si-amber fi" style="transition-delay:.16s">
+      <div class="scale-top">
+        <span class="scale-num sn-amber">2</span>
+        <div class="scale-dots">
+          <div class="sdot" style="background:var(--amber)"></div>
+          <div class="sdot" style="background:var(--amber)"></div>
+          <div class="sdot" style="background:rgba(148,163,184,0.3)"></div>
+          <div class="sdot" style="background:rgba(148,163,184,0.3)"></div>
+        </div>
+      </div>
+      <div class="scale-label">Regular</div>
+      <div class="scale-desc">El sistema presenta limitaciones notables en el criterio. Requiere mejoras para alcanzar un nivel aceptable de calidad sostenido.</div>
+    </div>
+    <div class="scale-item si-rose fi" style="transition-delay:.24s">
+      <div class="scale-top">
+        <span class="scale-num sn-rose">1</span>
+        <div class="scale-dots">
+          <div class="sdot" style="background:var(--rose)"></div>
+          <div class="sdot" style="background:rgba(148,163,184,0.3)"></div>
+          <div class="sdot" style="background:rgba(148,163,184,0.3)"></div>
+          <div class="sdot" style="background:rgba(148,163,184,0.3)"></div>
+        </div>
+      </div>
+      <div class="scale-label">Malo</div>
+      <div class="scale-desc">El sistema no cumple el criterio evaluado. La deficiencia es grave e impacta directamente la experiencia o funcionalidad del software.</div>
+    </div>
+  </div>
+</div>
+
+<!-- McCALL -->
+<section class="mccall-section" id="mccall">
+  <div class="section-header fi">
+    <p class="section-number">02 · Modelo de Calidad</p>
+    <h2 class="section-title">McCall <span style="font-size:1.2rem;font-weight:400;color:var(--slate2)">1977</span></h2>
+    <p class="section-sub">Tres perspectivas de evaluación: operación del producto, transición del producto y revisión del producto.</p>
+  </div>
+  <div class="mcc-layout">
+    <div class="mcc-aside">
+      <div class="mcc-big-card fi">
+        <p class="mcc-cap-label">Capacidad — Operación</p>
+        <div class="mcc-cap-score">32,2</div>
+        <p class="mcc-cap-sub">de 40 pts · Perspectiva del usuario cotidiano</p>
+      </div>
+      <div class="mcc-big-card fi" style="transition-delay:.1s">
+        <p class="mcc-cap-label">Capacidad — Transición</p>
+        <div class="mcc-cap-score">18,8</div>
+        <p class="mcc-cap-sub">de 30 pts · Adaptabilidad e integración</p>
+      </div>
+      <div class="mcc-big-card fi" style="transition-delay:.2s">
+        <p class="mcc-cap-label">Capacidad — Revisión</p>
+        <div class="mcc-cap-score">25,4</div>
+        <p class="mcc-cap-sub">de 30 pts · Mantenimiento y adaptación</p>
+      </div>
+    </div>
+    <div class="mcc-factors">
+      <div class="factor-row fi"><div class="factor-top"><span class="factor-name">Corrección</span><span class="factor-badge">8,1 / 10</span></div><div class="factor-bar-track"><div class="factor-bar-f" style="background:var(--rose)" data-w="81"></div></div><p class="factor-desc">El sistema realiza correctamente las funciones requeridas y cumple con los requisitos establecidos por el usuario.</p></div>
+      <div class="factor-row fi" style="transition-delay:.06s"><div class="factor-top"><span class="factor-name">Confiabilidad</span><span class="factor-badge">8,4 / 10</span></div><div class="factor-bar-track"><div class="factor-bar-f" style="background:var(--sky)" data-w="84"></div></div><p class="factor-desc">Alta disponibilidad y estabilidad con mínimos tiempos de caída. Respaldo de transacciones críticas.</p></div>
+      <div class="factor-row fi" style="transition-delay:.12s"><div class="factor-top"><span class="factor-name">Usabilidad</span><span class="factor-badge">7,5 / 10</span></div><div class="factor-bar-track"><div class="factor-bar-f" style="background:var(--amber)" data-w="75"></div></div><p class="factor-desc">Interfaz accesible aunque presenta curva de aprendizaje y limitaciones de accesibilidad para usuarios con discapacidades.</p></div>
+      <div class="factor-row fi" style="transition-delay:.18s"><div class="factor-top"><span class="factor-name">Integridad / Seguridad</span><span class="factor-badge">8,1 / 10</span></div><div class="factor-bar-track"><div class="factor-bar-f" style="background:var(--teal)" data-w="81"></div></div><p class="factor-desc">Protección de datos y transacciones con cifrado. Autenticación multifactor disponible para los usuarios.</p></div>
+      <div class="factor-row fi" style="transition-delay:.24s"><div class="factor-top"><span class="factor-name">Portabilidad</span><span class="factor-badge">3,7 / 10</span></div><div class="factor-bar-track"><div class="factor-bar-f" style="background:var(--rose)" data-w="37"></div></div><p class="factor-desc">⚠ Mayor debilidad: requiere conexión constante a internet. Sin funcionalidad offline disponible.</p></div>
+      <div class="factor-row fi" style="transition-delay:.3s"><div class="factor-top"><span class="factor-name">Reusabilidad</span><span class="factor-badge">7,5 / 10</span></div><div class="factor-bar-track"><div class="factor-bar-f" style="background:var(--sky)" data-w="75"></div></div><p class="factor-desc">Componentes modulares reutilizables, API pública disponible para integradores y socios.</p></div>
+      <div class="factor-row fi" style="transition-delay:.36s"><div class="factor-top"><span class="factor-name">Interoperabilidad</span><span class="factor-badge">7,5 / 10</span></div><div class="factor-bar-track"><div class="factor-bar-f" style="background:var(--teal)" data-w="75"></div></div><p class="factor-desc">Se integra con sistemas de pago, logística y plataformas externas mediante APIs bien documentadas.</p></div>
+      <div class="factor-row fi" style="transition-delay:.42s"><div class="factor-top"><span class="factor-name">Facilidad de mantenimiento</span><span class="factor-badge">7,5 / 10</span></div><div class="factor-bar-track"><div class="factor-bar-f" style="background:var(--amber)" data-w="75"></div></div><p class="factor-desc">Actualizaciones frecuentes sin interrupciones significativas al servicio de los usuarios.</p></div>
+      <div class="factor-row fi" style="transition-delay:.48s"><div class="factor-top"><span class="factor-name">Flexibilidad</span><span class="factor-badge">8,7 / 10</span></div><div class="factor-bar-track"><div class="factor-bar-f" style="background:var(--teal)" data-w="87"></div></div><p class="factor-desc">Alta adaptabilidad a cambios del mercado. Incorporación de nuevas funcionalidades con rapidez.</p></div>
+      <div class="factor-row fi" style="transition-delay:.54s"><div class="factor-top"><span class="factor-name">Facilidad de prueba</span><span class="factor-badge">9,1 / 10</span></div><div class="factor-bar-track"><div class="factor-bar-f" style="background:var(--teal)" data-w="91"></div></div><p class="factor-desc">Excelente trazabilidad de errores. Pipeline de CI/CD robusto con cobertura de pruebas exhaustiva.</p></div>
+    </div>
+  </div>
+  <div class="mcc-total fi">
+    <div class="total-label-block"><p class="total-label-main">Puntaje Total — McCall</p></div>
+    <div class="total-bar-wrap"><div class="total-bar" style="background:linear-gradient(90deg,var(--rose),var(--amber))" data-w="76.8"></div></div>
+    <div class="mcc-total-val">76,8</div>
+  </div>
+</section>
+
+<!-- BOEHM -->
+<section class="boehm-section" id="boehm">
+  <div class="section-header fi">
+    <p class="section-number">03 · Modelo de Calidad</p>
+    <h2 class="section-title">Boehm <span style="font-size:1.2rem;font-weight:400;color:var(--slate2)">1978</span></h2>
+    <p class="section-sub">Énfasis en la utilidad frente a los requerimientos del usuario. Evalúa portabilidad, utilidad general y mantenibilidad.</p>
+  </div>
+  <div class="boehm-dims">
+    <div class="boehm-dim fi"><h4>Portabilidad</h4><div class="boehm-dim-val">6,3</div><p>Limitada por dependencia de red</p></div>
+    <div class="boehm-dim fi" style="transition-delay:.1s"><h4>Utilidad</h4><div class="boehm-dim-val">53,8</div><p>Fiabilidad + Eficiencia + Interactividad</p></div>
+    <div class="boehm-dim fi" style="transition-delay:.2s"><h4>Mantenibilidad</h4><div class="boehm-dim-val">33,8</div><p>Alta facilidad de prueba y escalabilidad</p></div>
+  </div>
+  <table class="boehm-table fi">
+    <thead><tr><th>Característica primaria</th><th style="text-align:center">Esperado</th><th style="text-align:center">Obtenido</th><th style="text-align:center">Estado</th></tr></thead>
+    <tbody>
+      <tr><td class="bt-name">Independencia de dispositivos</td><td style="text-align:center"><span class="bt-exp">4</span></td><td style="text-align:center"><span class="bt-obt bt-eq">4</span></td><td style="text-align:center"><span class="bt-badge bteq">Cumple</span></td></tr>
+      <tr><td class="bt-name">Auto-contención (offline)</td><td style="text-align:center"><span class="bt-exp">3</span></td><td style="text-align:center"><span class="bt-obt bt-dn">1</span></td><td style="text-align:center"><span class="bt-badge btd">↓ bajo</span></td></tr>
+      <tr><td class="bt-name">Precisión</td><td style="text-align:center"><span class="bt-exp">4</span></td><td style="text-align:center"><span class="bt-obt bt-dn">3</span></td><td style="text-align:center"><span class="bt-badge btd">↓</span></td></tr>
+      <tr><td class="bt-name">Completitud</td><td style="text-align:center"><span class="bt-exp">4</span></td><td style="text-align:center"><span class="bt-obt bt-dn">3</span></td><td style="text-align:center"><span class="bt-badge btd">↓</span></td></tr>
+      <tr><td class="bt-name">Robustez (fiabilidad)</td><td style="text-align:center"><span class="bt-exp">3</span></td><td style="text-align:center"><span class="bt-obt bt-dn">2</span></td><td style="text-align:center"><span class="bt-badge btd">↓</span></td></tr>
+      <tr><td class="bt-name">Consistencia</td><td style="text-align:center"><span class="bt-exp">3</span></td><td style="text-align:center"><span class="bt-obt bt-eq">3</span></td><td style="text-align:center"><span class="bt-badge bteq">Cumple</span></td></tr>
+      <tr><td class="bt-name">Responsabilidad</td><td style="text-align:center"><span class="bt-exp">4</span></td><td style="text-align:center"><span class="bt-obt bt-eq">4</span></td><td style="text-align:center"><span class="bt-badge bteq">Cumple</span></td></tr>
+      <tr><td class="bt-name">Eficiencia de dispositivos</td><td style="text-align:center"><span class="bt-exp">4</span></td><td style="text-align:center"><span class="bt-obt bt-eq">4</span></td><td style="text-align:center"><span class="bt-badge bteq">Cumple</span></td></tr>
+      <tr><td class="bt-name">Accesibilidad (eficiencia)</td><td style="text-align:center"><span class="bt-exp">4</span></td><td style="text-align:center"><span class="bt-obt bt-eq">4</span></td><td style="text-align:center"><span class="bt-badge bteq">Cumple</span></td></tr>
+      <tr><td class="bt-name">Robustez (interactividad)</td><td style="text-align:center"><span class="bt-exp">3</span></td><td style="text-align:center"><span class="bt-obt bt-eq">3</span></td><td style="text-align:center"><span class="bt-badge bteq">Cumple</span></td></tr>
+      <tr><td class="bt-name">Accesibilidad limitada</td><td style="text-align:center"><span class="bt-exp">3</span></td><td style="text-align:center"><span class="bt-obt bt-dn">2</span></td><td style="text-align:center"><span class="bt-badge btd">↓</span></td></tr>
+      <tr><td class="bt-name">Capacidad de comunicación</td><td style="text-align:center"><span class="bt-exp">3</span></td><td style="text-align:center"><span class="bt-obt bt-up">4</span></td><td style="text-align:center"><span class="bt-badge btu">↑ supera</span></td></tr>
+      <tr><td class="bt-name">Auto-descripción</td><td style="text-align:center"><span class="bt-exp">3</span></td><td style="text-align:center"><span class="bt-obt bt-up">4</span></td><td style="text-align:center"><span class="bt-badge btu">↑ supera</span></td></tr>
+      <tr><td class="bt-name">Estructuración (prueba)</td><td style="text-align:center"><span class="bt-exp">3</span></td><td style="text-align:center"><span class="bt-obt bt-up">4</span></td><td style="text-align:center"><span class="bt-badge btu">↑ supera</span></td></tr>
+      <tr><td class="bt-name">Concisión</td><td style="text-align:center"><span class="bt-exp">4</span></td><td style="text-align:center"><span class="bt-obt bt-dn">3</span></td><td style="text-align:center"><span class="bt-badge btd">↓</span></td></tr>
+      <tr><td class="bt-name">Legibilidad</td><td style="text-align:center"><span class="bt-exp">4</span></td><td style="text-align:center"><span class="bt-obt bt-dn">3</span></td><td style="text-align:center"><span class="bt-badge btd">↓</span></td></tr>
+      <tr><td class="bt-name">Estructuración (modificación)</td><td style="text-align:center"><span class="bt-exp">3</span></td><td style="text-align:center"><span class="bt-obt bt-eq">3</span></td><td style="text-align:center"><span class="bt-badge bteq">Cumple</span></td></tr>
+      <tr><td class="bt-name">Escalabilidad</td><td style="text-align:center"><span class="bt-exp">3</span></td><td style="text-align:center"><span class="bt-obt bt-up">4</span></td><td style="text-align:center"><span class="bt-badge btu">↑ alto</span></td></tr>
+    </tbody>
+  </table>
+  <div class="boehm-total fi">
+    <div class="total-label-block"><p class="total-label-main">Puntaje Total — Boehm</p></div>
+    <div class="total-bar-wrap"><div class="total-bar" style="background:linear-gradient(90deg,var(--sky),var(--teal))" data-w="93.8"></div></div>
+    <div class="boehm-total-val">93,8</div>
+  </div>
+</section>
+
+<!-- FURPS -->
+<section class="furps-section" id="furps">
+  <div class="section-header fi">
+    <p class="section-number">04 · Modelo de Calidad</p>
+    <h2 class="section-title">FURPS <span style="font-size:1.2rem;font-weight:400;color:var(--slate2)">1987</span></h2>
+    <p class="section-sub">Modelo multidimensional que evalúa cinco categorías fundamentales de calidad del software.</p>
+  </div>
+  <div class="furps-cards fi">
+    <div class="furps-card"><div class="furps-letter">F</div><div class="furps-name">Funcionalidad</div><div class="furps-score">22,5</div><ul class="furps-items"><li>Características del programa</li><li>Generalidad de funciones</li><li>Seguridad del sistema</li></ul></div>
+    <div class="furps-card"><div class="furps-letter">U</div><div class="furps-name">Facilidad de Uso</div><div class="furps-score">17,5</div><ul class="furps-items"><li>Capacidad de prueba</li><li>Configuración</li><li>Compatibilidad</li><li>Instalación</li></ul></div>
+    <div class="furps-card"><div class="furps-letter">R</div><div class="furps-name">Confiabilidad</div><div class="furps-score">12,5</div><ul class="furps-items"><li>Frecuencia / severidad de fallos</li><li>Exactitud de salidas</li><li>Capacidad de predicción</li></ul></div>
+    <div class="furps-card"><div class="furps-letter">P</div><div class="furps-name">Rendimiento</div><div class="furps-score">18,8</div><ul class="furps-items"><li>Factores humanos</li><li>Factores estéticos</li><li>Consistencia de interfaz</li><li>Documentación</li></ul></div>
+    <div class="furps-card"><div class="furps-letter">S</div><div class="furps-name">Soporte</div><div class="furps-score">13,5</div><ul class="furps-items"><li>Velocidad de procesamiento</li><li>Tiempo de respuesta</li><li>Consumo de recursos</li><li>Rendimiento efectivo</li><li>Eficacia</li></ul></div>
+  </div>
+  <div class="furps-total fi">
+    <div class="total-label-block"><p class="total-label-main">Puntaje Total — FURPS</p></div>
+    <div class="total-bar-wrap"><div class="total-bar" style="background:linear-gradient(90deg,var(--amber),var(--rose))" data-w="84.8"></div></div>
+    <div class="furps-total-val">84,8</div>
+  </div>
+</section>
+
+<!-- COMPARACIÓN -->
+<section class="comp-section" id="resultados">
+  <div class="section-header fi">
+    <p class="section-number">05 · Comparación de Resultados</p>
+    <h2 class="section-title">Resumen Visual</h2>
+    <p class="section-sub">Comparativa de los tres modelos aplicados y su radar de dimensiones de calidad.</p>
+  </div>
+  <div class="comp-layout">
+    <div class="comp-bars fi">
+      <div><div class="comp-bar-header"><span class="comp-bar-model">McCall · 1977</span><span class="comp-bar-score cb1">76,8</span></div><div class="comp-track"><div class="comp-fill cf1" data-w="76.8"></div></div></div>
+      <div><div class="comp-bar-header"><span class="comp-bar-model">Boehm · 1978</span><span class="comp-bar-score cb2">93,8</span></div><div class="comp-track"><div class="comp-fill cf2" data-w="93.8"></div></div></div>
+      <div><div class="comp-bar-header"><span class="comp-bar-model">FURPS · 1987</span><span class="comp-bar-score cb3">84,8</span></div><div class="comp-track"><div class="comp-fill cf3" data-w="84.8"></div></div></div>
+      <div style="margin-top:1.5rem;padding:1.25rem 1.5rem;background:rgba(0,201,167,0.07);border:1px solid rgba(0,201,167,0.2);border-radius:8px">
+        <p style="font-size:.65rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-bottom:.4rem">Promedio global</p>
+        <p style="font-family:'Space Grotesk',sans-serif;font-size:2.4rem;font-weight:700;color:var(--teal)">85,1 <span style="font-size:.95rem;font-weight:400;color:var(--slate)">/ 100</span></p>
+      </div>
+    </div>
+    <div class="radar-box fi-r">
+      <p class="radar-title">Radar de dimensiones de calidad</p>
+      <canvas id="radarChart" width="300" height="300" aria-label="Gráfico radar de los tres modelos de calidad"></canvas>
+      <div style="display:flex;gap:1.25rem;margin-top:1rem;flex-wrap:wrap;justify-content:center">
+        <span style="display:flex;align-items:center;gap:.4rem;font-size:.72rem;color:var(--slate2)"><span style="width:12px;height:3px;background:var(--rose);border-radius:2px;display:inline-block"></span>McCall</span>
+        <span style="display:flex;align-items:center;gap:.4rem;font-size:.72rem;color:var(--slate2)"><span style="width:12px;height:3px;background:var(--sky);border-radius:2px;display:inline-block"></span>Boehm</span>
+        <span style="display:flex;align-items:center;gap:.4rem;font-size:.72rem;color:var(--slate2)"><span style="width:12px;height:3px;background:var(--amber);border-radius:2px;display:inline-block"></span>FURPS</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONCLUSIONES -->
+<section class="conc-section" id="conclusiones">
+  <div class="section-header fi">
+    <p class="section-number">06 · Conclusiones</p>
+    <h2 class="section-title">Análisis Final</h2>
+  </div>
+  <div class="conc-cards">
+    <div class="conc-card fi"><p class="conc-model">McCall · 1977</p><div class="conc-score">76,8</div><p class="conc-text">La ponderación se basa en características funcionales y de interoperabilidad. La portabilidad (3,7/10) es la mayor debilidad al requerir conexión constante, impactando la capacidad de transición del software.</p></div>
+    <div class="conc-card fi" style="transition-delay:.12s"><p class="conc-model">Boehm · 1978</p><div class="conc-score">93,8</div><p class="conc-text">Destaca la utilidad frente a los requerimientos del usuario. Eficiencia (10/10), facilidad de prueba (10/10) y escalabilidad son fortalezas clave. La auto-contención offline (1/4) es la principal debilidad.</p></div>
+    <div class="conc-card fi" style="transition-delay:.24s"><p class="conc-model">FURPS · 1987</p><div class="conc-score">84,8</div><p class="conc-text">Equilibra la evaluación en 5 dimensiones. Mercado Libre destaca en rendimiento estético y consistencia de interfaz, con oportunidades de mejora en velocidad de procesamiento y soporte técnico.</p></div>
+  </div>
+  <div class="oport-section fi">
+    <p class="oport-title">Oportunidades de mejora</p>
+    <div class="oport-grid">
+      <div class="oport-item"><div class="oport-num">01</div><p class="oport-text">Dependencia de internet — Implementar funcionalidad offline para mejorar portabilidad</p></div>
+      <div class="oport-item" style="transition-delay:.08s"><div class="oport-num">02</div><p class="oport-text">Privacidad de datos — Fortalecer mecanismos de protección y transparencia al usuario</p></div>
+      <div class="oport-item" style="transition-delay:.16s"><div class="oport-num">03</div><p class="oport-text">Rendimiento — Reducir tiempos de respuesta y optimizar el procesamiento en picos de demanda</p></div>
+      <div class="oport-item" style="transition-delay:.24s"><div class="oport-num">04</div><p class="oport-text">Accesibilidad — Ampliar soporte para usuarios con limitaciones visuales, auditivas o motoras</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>Evaluación de Calidad de Software · Mercado Libre · Ingeniería de Software · 2025</p>
+  <div class="footer-chips">
+    <span class="fchip fc1">McCall 1977</span>
+    <span class="fchip fc2">Boehm 1978</span>
+    <span class="fchip fc3">FURPS 1987</span>
+  </div>
+</footer>
+
+<script>
+// HAMBURGER MENU
+function toggleMenu(){
+  document.getElementById('burger').classList.toggle('open');
+  document.getElementById('navDropdown').classList.toggle('open');
+}
+function closeMenu(){
+  document.getElementById('burger').classList.remove('open');
+  document.getElementById('navDropdown').classList.remove('open');
+}
+document.addEventListener('click', e => {
+  if (!e.target.closest('#burger') && !e.target.closest('#navDropdown')) closeMenu();
+});
+
+// PROGRESS BAR + SCROLL TOP
+const pb = document.getElementById('progress-bar');
+const sTop = document.getElementById('scrollTop');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  pb.style.width = (scrollY / (h.scrollHeight - h.clientHeight) * 100) + '%';
+  sTop.classList.toggle('show', scrollY > 400);
+});
+
+// CIRCULAR PROGRESS ANIMATION
+function animCircle(el, pct) {
+  const circumference = parseFloat(el.getAttribute('stroke-dasharray') || '251.2');
+  const offset = circumference - (pct / 100) * circumference;
+  setTimeout(() => { el.style.strokeDashoffset = offset; }, 800);
+}
+
+// COUNTERS
+function animCount(el) {
+  const target = parseFloat(el.dataset.count);
+  const dur = 1700, s = performance.now();
+  const tick = now => {
+    const t = Math.min((now - s) / dur, 1);
+    const ease = 1 - Math.pow(1 - t, 3);
+    el.textContent = (target * ease).toFixed(1);
+    if (t < 1) requestAnimationFrame(tick);
+    else el.textContent = target.toFixed(1);
+  };
+  requestAnimationFrame(tick);
+}
+
+// Trigger hero circles on load
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.querySelectorAll('[data-count]').forEach(animCount);
+    const circles = [
+      { id: 'cf-mccall', pct: 76.8, circ: 251.2 },
+      { id: 'cf-boehm',  pct: 93.8, circ: 251.2 },
+      { id: 'cf-furps',  pct: 84.8, circ: 251.2 },
+      { id: 'cf-total',  pct: 85.1, circ: 207.3 },
+    ];
+    circles.forEach(c => {
+      const el = document.getElementById(c.id);
+      if (el) {
+        const offset = c.circ - (c.pct / 100) * c.circ;
+        el.style.strokeDashoffset = offset;
+      }
+    });
+  }, 600);
+});
+
+// INTERSECTION OBSERVER
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    e.target.classList.add('in');
+    e.target.querySelectorAll('.factor-bar-f').forEach(b => setTimeout(() => { b.style.width = b.dataset.w + '%'; }, 300));
+    e.target.querySelectorAll('.total-bar,.comp-fill').forEach(b => setTimeout(() => { b.style.width = b.dataset.w + '%'; }, 400));
+    obs.unobserve(e.target);
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.fi,.fi-l,.fi-r').forEach(el => obs.observe(el));
+
+// RADAR CHART
+function drawRadar() {
+  const canvas = document.getElementById('radarChart');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W=300,H=300,cx=W/2,cy=H/2,R=105;
+  const labels=['Corrección','Confiabilidad','Usabilidad','Portabilidad','Revisión','Soporte'];
+  const n=labels.length;
+  const datasets=[
+    {values:[8.1,8.4,7.5,3.7,8.5,8.0],color:'#F43F5E'},
+    {values:[9.0,9.0,8.5,6.3,8.8,9.0],color:'#3B82F6'},
+    {values:[7.5,8.4,8.75,8.5,8.0,9.0],color:'#F59E0B'},
+  ];
+  const t0=performance.now();
+  function draw(now){
+    const prog=Math.min((now-t0)/1400,1);
+    const ease=1-Math.pow(1-prog,3);
+    ctx.clearRect(0,0,W,H);
+    for(let ring=1;ring<=5;ring++){
+      ctx.beginPath();
+      for(let i=0;i<n;i++){const a=(Math.PI*2*i/n)-Math.PI/2;const rr=R*ring/5;i===0?ctx.moveTo(cx+rr*Math.cos(a),cy+rr*Math.sin(a)):ctx.lineTo(cx+rr*Math.cos(a),cy+rr*Math.sin(a))}
+      ctx.closePath();ctx.strokeStyle='rgba(59,130,246,0.1)';ctx.lineWidth=1;ctx.stroke();
+      if(ring===5){ctx.fillStyle='rgba(59,130,246,0.03)';ctx.fill()}
+    }
+    for(let i=0;i<n;i++){const a=(Math.PI*2*i/n)-Math.PI/2;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+R*Math.cos(a),cy+R*Math.sin(a));ctx.strokeStyle='rgba(59,130,246,0.15)';ctx.lineWidth=1;ctx.stroke()}
+    ctx.font='500 10px Inter,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle='rgba(148,163,184,0.9)';
+    for(let i=0;i<n;i++){const a=(Math.PI*2*i/n)-Math.PI/2;ctx.fillText(labels[i],cx+(R+20)*Math.cos(a),cy+(R+20)*Math.sin(a))}
+    datasets.forEach(ds=>{
+      ctx.beginPath();
+      for(let i=0;i<n;i++){const a=(Math.PI*2*i/n)-Math.PI/2;const val=(ds.values[i]/10)*R*ease;i===0?ctx.moveTo(cx+val*Math.cos(a),cy+val*Math.sin(a)):ctx.lineTo(cx+val*Math.cos(a),cy+val*Math.sin(a))}
+      ctx.closePath();ctx.strokeStyle=ds.color;ctx.lineWidth=2;ctx.stroke();ctx.fillStyle=ds.color+'18';ctx.fill();
+      for(let i=0;i<n;i++){const a=(Math.PI*2*i/n)-Math.PI/2;const val=(ds.values[i]/10)*R*ease;ctx.beginPath();ctx.arc(cx+val*Math.cos(a),cy+val*Math.sin(a),3,0,Math.PI*2);ctx.fillStyle=ds.color;ctx.fill()}
+    });
+    if(prog<1)requestAnimationFrame(draw);
+  }
+  requestAnimationFrame(draw);
+}
+const radarObs=new IntersectionObserver(entries=>{if(entries[0].isIntersecting){drawRadar();radarObs.disconnect()}},{threshold:0.2});
+const rc=document.getElementById('radarChart');if(rc)radarObs.observe(rc);
+</script>
+</body>
+</html>
