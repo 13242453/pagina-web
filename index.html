@@ -134,6 +134,26 @@ section{padding:6rem 6%}
 .section-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.8rem,3vw,2.8rem);font-weight:700;color:var(--white);line-height:1.2}
 .section-sub{font-size:.95rem;color:var(--slate);margin-top:.75rem;max-width:55ch}
 
+/* APP CAROUSEL */
+.app-carousel-wrap{margin:2.5rem 0 3rem;position:relative}
+.app-carousel-label{font-size:.63rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--teal);margin-bottom:1.25rem;display:flex;align-items:center;gap:.6rem}
+.app-carousel-label::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(0,201,167,0.3),transparent);max-width:80px}
+.carousel-outer{position:relative;overflow:hidden;border-radius:16px;background:rgba(15,31,61,0.6);border:1px solid rgba(59,130,246,0.2);padding:1.5rem 1.5rem 1rem}
+.carousel-track{display:flex;gap:1.25rem;transition:transform .6s cubic-bezier(.4,0,.2,1)}
+.carousel-slide{flex:0 0 calc(33.333% - .85rem);border-radius:12px;overflow:hidden;position:relative;aspect-ratio:16/9;background:var(--navy);border:1px solid rgba(59,130,246,0.15);flex-shrink:0}
+.carousel-slide img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease}
+.carousel-slide:hover img{transform:scale(1.04)}
+.slide-caption{position:absolute;bottom:0;left:0;right:0;padding:.6rem 1rem;background:linear-gradient(transparent,rgba(10,22,40,0.92));font-size:.7rem;font-weight:600;color:var(--white);letter-spacing:.05em}
+.slide-badge{position:absolute;top:.6rem;right:.6rem;background:rgba(0,201,167,0.18);border:1px solid rgba(0,201,167,0.4);border-radius:4px;font-size:.6rem;font-weight:700;color:var(--teal);padding:.15rem .5rem;letter-spacing:.08em}
+.carousel-dots{display:flex;justify-content:center;gap:.5rem;margin-top:1rem}
+.cdot{width:6px;height:6px;border-radius:50%;background:rgba(148,163,184,0.25);cursor:pointer;transition:background .3s,transform .3s}
+.cdot.active{background:var(--teal);transform:scale(1.3)}
+.carousel-arrows{position:absolute;top:50%;transform:translateY(-50%);width:100%;display:flex;justify-content:space-between;pointer-events:none;padding:0 .5rem;z-index:5}
+.carr-btn{width:36px;height:36px;border-radius:50%;background:rgba(10,22,40,0.85);border:1px solid rgba(59,130,246,0.3);color:var(--teal);font-size:.9rem;cursor:pointer;pointer-events:auto;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s;backdrop-filter:blur(8px)}
+.carr-btn:hover{background:var(--teal);color:var(--navy);border-color:var(--teal)}
+.progress-strip{height:2px;background:rgba(255,255,255,0.06);border-radius:1px;margin-top:.75rem;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--sky));border-radius:1px;transition:width .1s linear;width:0%}
+
 /* PLATAFORMA */
 .plat-section{background:var(--navy2);border-top:1px solid rgba(59,130,246,0.12);border-bottom:1px solid rgba(59,130,246,0.12)}
 .plat-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.5rem}
@@ -508,6 +528,47 @@ footer p{font-size:.75rem;color:var(--slate2)}
     <h2 class="section-title">Mercado Libre</h2>
     <p class="section-sub">Plataforma de comercio electrónico fundada en 1999 por Marcos Galperin. Líder en América Latina con presencia en 18 países.</p>
   </div>
+
+  <!-- CARRUSEL DE IMÁGENES DE LA APP -->
+  <div class="app-carousel-wrap fi" style="transition-delay:.15s">
+    <div class="app-carousel-label">Vista previa de la aplicación</div>
+    <div class="carousel-outer">
+      <div class="carousel-arrows">
+        <button class="carr-btn" id="carr-prev" aria-label="Anterior">&#8592;</button>
+        <button class="carr-btn" id="carr-next" aria-label="Siguiente">&#8594;</button>
+      </div>
+      <div class="carousel-track" id="carouselTrack">
+        <div class="carousel-slide">
+          <img src="mercadoinicio.png" alt="Mercado Libre - Inicio">
+          <div class="slide-badge">HOME</div>
+          <div class="slide-caption">Pantalla de inicio</div>
+        </div>
+        <div class="carousel-slide">
+          <img src="motor.png" alt="Mercado Libre - Búsqueda">
+          <div class="slide-badge">SEARCH</div>
+          <div class="slide-caption">Motor de búsqueda</div>
+        </div>
+        <div class="carousel-slide">
+          <img src="pago.png" alt="Mercado Libre - Pago">
+          <div class="slide-badge">CHECKOUT</div>
+          <div class="slide-caption">Proceso de pago</div>
+        </div>
+        <div class="carousel-slide">
+          <img src="mercadoproducto.png" alt="Mercado Libre - Producto">
+          <div class="slide-badge">PRODUCT</div>
+          <div class="slide-caption">Detalle de producto</div>
+        </div>
+        <div class="carousel-slide">
+          <img src="calificaciones.png" alt="Mercado Libre - Calificaciones">
+          <div class="slide-badge">REVIEWS</div>
+          <div class="slide-caption">Sistema de calificaciones</div>
+        </div>
+      </div>
+      <div class="progress-strip"><div class="progress-fill" id="carProgress"></div></div>
+      <div class="carousel-dots" id="carouselDots"></div>
+    </div>
+  </div>
+
   <div class="plat-grid">
     <div class="plat-card fi">
       <div class="plat-card-icon">🌐</div>
@@ -865,22 +926,30 @@ function animCount(el) {
 
 // Trigger hero circles on load
 window.addEventListener('load', () => {
-  setTimeout(() => {
-    document.querySelectorAll('[data-count]').forEach(animCount);
-    const circles = [
-      { id: 'cf-mccall', pct: 76.8, circ: 251.2 },
-      { id: 'cf-boehm',  pct: 93.8, circ: 251.2 },
-      { id: 'cf-furps',  pct: 84.8, circ: 251.2 },
-      { id: 'cf-total',  pct: 81.8, circ: 207.3 },
-    ];
-    circles.forEach(c => {
-      const el = document.getElementById(c.id);
-      if (el) {
-        const offset = c.circ - (c.pct / 100) * c.circ;
-        el.style.strokeDashoffset = offset;
-      }
+  const circles = [
+    { id: 'cf-mccall', pct: 74.5, circ: 251.2 },
+    { id: 'cf-boehm',  pct: 89.4, circ: 251.2 },
+    { id: 'cf-furps',  pct: 81.5, circ: 251.2 },
+    { id: 'cf-total',  pct: 81.8, circ: 207.3 },
+  ];
+  // Force dasharray/offset via inline style so CSS doesn't interfere
+  circles.forEach(c => {
+    const el = document.getElementById(c.id);
+    if (!el) return;
+    el.style.strokeDasharray = c.circ;
+    el.style.strokeDashoffset = c.circ;
+  });
+  // Double rAF ensures browser has painted before transition fires
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      document.querySelectorAll('[data-count]').forEach(animCount);
+      circles.forEach(c => {
+        const el = document.getElementById(c.id);
+        if (!el) return;
+        el.style.strokeDashoffset = c.circ - (c.pct / 100) * c.circ;
+      });
     });
-  }, 600);
+  });
 });
 
 // INTERSECTION OBSERVER
@@ -934,6 +1003,75 @@ function drawRadar() {
 }
 const radarObs=new IntersectionObserver(entries=>{if(entries[0].isIntersecting){drawRadar();radarObs.disconnect()}},{threshold:0.2});
 const rc=document.getElementById('radarChart');if(rc)radarObs.observe(rc);
+
+// CAROUSEL
+(function(){
+  const track = document.getElementById('carouselTrack');
+  const dotsWrap = document.getElementById('carouselDots');
+  const progressBar = document.getElementById('carProgress');
+  if (!track) return;
+
+  const slides = track.querySelectorAll('.carousel-slide');
+  const total = slides.length;
+  const visible = 3;
+  const maxIndex = total - visible;
+  let current = 0;
+  let autoTimer, progressTimer, elapsed = 0;
+  const INTERVAL = 3000;
+
+  // Build dots
+  for (let i = 0; i <= maxIndex; i++) {
+    const d = document.createElement('div');
+    d.className = 'cdot' + (i === 0 ? ' active' : '');
+    d.addEventListener('click', () => goTo(i));
+    dotsWrap.appendChild(d);
+  }
+
+  function updateDots() {
+    dotsWrap.querySelectorAll('.cdot').forEach((d, i) => d.classList.toggle('active', i === current));
+  }
+
+  function goTo(idx) {
+    current = Math.max(0, Math.min(idx, maxIndex));
+    const slideW = slides[0].offsetWidth + 20; // gap 1.25rem ≈ 20px
+    track.style.transform = `translateX(-${current * slideW}px)`;
+    updateDots();
+  }
+
+  function next() { goTo(current >= maxIndex ? 0 : current + 1); }
+  function prev() { goTo(current <= 0 ? maxIndex : current - 1); }
+
+  document.getElementById('carr-next').addEventListener('click', () => { resetAuto(); next(); });
+  document.getElementById('carr-prev').addEventListener('click', () => { resetAuto(); prev(); });
+
+  function startProgress() {
+    elapsed = 0;
+    clearInterval(progressTimer);
+    progressTimer = setInterval(() => {
+      elapsed += 50;
+      progressBar.style.width = Math.min((elapsed / INTERVAL) * 100, 100) + '%';
+      if (elapsed >= INTERVAL) { clearInterval(progressTimer); }
+    }, 50);
+  }
+
+  function startAuto() {
+    clearInterval(autoTimer);
+    startProgress();
+    autoTimer = setInterval(() => { next(); startProgress(); }, INTERVAL);
+  }
+
+  function resetAuto() {
+    clearInterval(autoTimer);
+    clearInterval(progressTimer);
+    progressBar.style.width = '0%';
+    startAuto();
+  }
+
+  // Recalculate on resize
+  window.addEventListener('resize', () => goTo(current));
+
+  startAuto();
+})();
 </script>
 </body>
 </html>
