@@ -2,10 +2,6 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<<<<<<< HEAD
-<meta name="google-site-verification" content="eurZryjt-V3qvA13Js8pBVOerNWch4Xjo4mCmVz_Ojk" />
-=======
->>>>>>> 84541f8721d10c7530e806502546a226cf1a4d94
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Calidad de Software · Mercado Libre</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
@@ -292,6 +288,32 @@ section{padding:6rem 6%}
 .oport-num{font-family:'Space Grotesk',sans-serif;font-size:1.8rem;font-weight:700;color:var(--teal);margin-bottom:.5rem}
 .oport-text{font-size:.81rem;color:var(--slate);line-height:1.5}
 
+/* BIBLIOGRAFÍA */
+.biblio-section{background:var(--navy3);border-top:1px solid rgba(59,130,246,0.15);padding:5rem 6%}
+.biblio-list{display:flex;flex-direction:column;gap:1.25rem;margin-top:2.5rem}
+.biblio-item{
+  background:rgba(10,22,40,0.5);border:1px solid rgba(59,130,246,0.12);border-radius:10px;
+  padding:1.4rem 1.6rem;display:flex;gap:1.25rem;align-items:flex-start;
+  transition:border-color .3s,transform .3s;cursor:default;
+}
+.biblio-item:hover{border-color:rgba(0,201,167,0.3);transform:translateX(5px)}
+.biblio-num{
+  font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--teal);
+  min-width:28px;line-height:1.4;flex-shrink:0;
+}
+.biblio-content{}
+.biblio-authors{font-size:.83rem;font-weight:600;color:var(--text);margin-bottom:.25rem}
+.biblio-title{font-size:.83rem;color:var(--slate);line-height:1.6;font-style:italic;margin-bottom:.35rem}
+.biblio-source{font-size:.77rem;color:var(--slate2);margin-bottom:.4rem}
+.biblio-link{
+  display:inline-flex;align-items:center;gap:.4rem;
+  font-size:.72rem;color:var(--teal);text-decoration:none;
+  border:1px solid rgba(0,201,167,0.25);border-radius:4px;padding:.18rem .6rem;
+  transition:background .2s,border-color .2s;
+}
+.biblio-link:hover{background:var(--teal-dim);border-color:var(--teal)}
+.biblio-link::before{content:'↗';font-size:.65rem}
+
 /* SCROLL TOP */
 #scrollTop{position:fixed;bottom:2rem;right:2rem;z-index:99;width:42px;height:42px;border-radius:8px;border:1px solid rgba(59,130,246,0.3);background:var(--navy2);display:flex;align-items:center;justify-content:center;color:var(--teal);font-size:.9rem;cursor:pointer;opacity:0;transform:translateY(10px);transition:all .3s}
 #scrollTop.show{opacity:1;transform:translateY(0)}
@@ -346,22 +368,35 @@ footer p{font-size:.75rem;color:var(--slate2)}
     <div class="nd-divider"></div>
     <a href="#resultados" onclick="closeMenu()"><span class="nd-dot" style="background:var(--teal)"></span>Resultados</a>
     <a href="#conclusiones" onclick="closeMenu()"><span class="nd-dot" style="background:var(--teal)"></span>Conclusiones</a>
+    <a href="#referencias" onclick="closeMenu()"><span class="nd-dot" style="background:var(--slate2)"></span>Bibliografía</a>
   </div>
 </nav>
 
 <!-- HERO -->
 <section class="hero" id="inicio">
   <div class="hero-left">
-
     <!-- Logo Mercado Libre -->
-   <div class="ml-logo-wrap">
-  <img src="MERCADO.png" alt="Logo Mercado Libre" width="60">
-</div>
+    <div class="ml-badge">
+      <div class="ml-logo-wrap">
+        <!-- ML logo SVG recreado con colores oficiales -->
+        <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="30" cy="30" rx="28" ry="28" fill="#FFE600"/>
+          <path d="M30 14 C30 14 20 22 20 30 C20 36 24.5 41 30 41 C35.5 41 40 36 40 30 C40 22 30 14 30 14Z" fill="#3483FA"/>
+          <path d="M22 26 C22 26 17 29 17 33 C17 37 20 40 24 40 C26 40 28 39 29.5 37.5" stroke="#2D3277" stroke-width="1.2" fill="none"/>
+          <path d="M38 26 C38 26 43 29 43 33 C43 37 40 40 36 40 C34 40 32 39 30.5 37.5" stroke="#2D3277" stroke-width="1.2" fill="none"/>
+          <circle cx="26" cy="25" r="2.5" fill="white"/>
+          <circle cx="34" cy="25" r="2.5" fill="white"/>
+          <circle cx="26" cy="25" r="1.2" fill="#333"/>
+          <circle cx="34" cy="25" r="1.2" fill="#333"/>
+          <path d="M26 32 Q30 36 34 32" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
       <div>
         <div class="ml-badge-name">Mercado Libre</div>
         <div class="ml-badge-tag">mercadolibre.com · Comercio electrónico</div>
       </div>
     </div>
+
     <div class="hero-chip"><span class="hero-chip-dot"></span>Ingeniería de Software · 2025</div>
     <h1 class="hero-title">Evaluación de<br>Calidad —<br><span class="accent">Mercado Libre</span></h1>
     <p class="hero-desc">Análisis sistemático aplicando los modelos McCall, Boehm y FURPS a la plataforma líder de comercio electrónico en Latinoamérica.</p>
@@ -729,6 +764,58 @@ footer p{font-size:.75rem;color:var(--slate2)}
       <div class="oport-item" style="transition-delay:.16s"><div class="oport-num">03</div><p class="oport-text">Rendimiento — Reducir tiempos de respuesta y optimizar el procesamiento en picos de demanda</p></div>
       <div class="oport-item" style="transition-delay:.24s"><div class="oport-num">04</div><p class="oport-text">Accesibilidad — Ampliar soporte para usuarios con limitaciones visuales, auditivas o motoras</p></div>
     </div>
+  </div>
+</section>
+
+<!-- BIBLIOGRAFÍAS -->
+<section class="biblio-section" id="referencias">
+  <div class="section-header fi">
+    <p class="section-number">07 · Referencias</p>
+    <h2 class="section-title">Bibliografía</h2>
+    <p class="section-sub">Fuentes académicas y recursos consultados para el desarrollo de la evaluación de calidad de software.</p>
+  </div>
+  <div class="biblio-list">
+
+    <div class="biblio-item fi">
+      <span class="biblio-num">[1]</span>
+      <div class="biblio-content">
+        <div class="biblio-authors">Chinchilla, Z. (2016).</div>
+        <div class="biblio-title">Libro Electrónico Multimedial: Recursos Educativos Digitales. Capítulos I y II.</div>
+        <div class="biblio-source">CVUDES — Corporación Universitaria de Asturias.</div>
+        <a class="biblio-link" href="https://aulavirtualeew.cvudes.edu.co/publico/lems/L.000.011.EATE/Documentos/cap1/Capitulo_Completo.pdf" target="_blank">Ver recurso</a>
+      </div>
+    </div>
+
+    <div class="biblio-item fi" style="transition-delay:.08s">
+      <span class="biblio-num">[2]</span>
+      <div class="biblio-content">
+        <div class="biblio-authors">Rey, A. (2015).</div>
+        <div class="biblio-title">Libro Electrónico Multimedial: Evaluación de la Calidad de la Tecnología Educativa. Capítulos II y IV.</div>
+        <div class="biblio-source">CVUDES — Corporación Universitaria de Asturias.</div>
+        <a class="biblio-link" href="https://aulavirtualeew.cvudes.edu.co/publico/lems/L.000.007.EATE/Documentos/cap2/Capitulo_Completo.pdf" target="_blank">Ver recurso</a>
+      </div>
+    </div>
+
+    <div class="biblio-item fi" style="transition-delay:.16s">
+      <span class="biblio-num">[3]</span>
+      <div class="biblio-content">
+        <div class="biblio-authors">Ortiz, K. (2018).</div>
+        <div class="biblio-title">Modelos de Calidad de Software FURPS.</div>
+        <div class="biblio-source">Video educativo — YouTube.</div>
+        <a class="biblio-link" href="https://www.youtube.com/watch?v=_Y01_ve0deo" target="_blank">Ver recurso</a>
+      </div>
+    </div>
+
+    <div class="biblio-item fi" style="transition-delay:.24s">
+      <span class="biblio-num">[4]</span>
+      <div class="biblio-content">
+        <div class="biblio-authors">Fillotranni, P. (2007).</div>
+        <div class="biblio-title">Calidad del desarrollo de software. Modelos de Calidad de Software.</div>
+        <div class="biblio-source">Universidad Nacional del Sur — Departamento de Ciencias e Ingeniería de la Computación.</div>
+        <a class="biblio-link" href="http://www.cs.uns.edu.ar/~prf/teaching/SQ07/clase6.pdf" target="_blank">Ver recurso</a>
+      </div>
+    </div>
+
   </div>
 </section>
 
